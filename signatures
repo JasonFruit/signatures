@@ -12,8 +12,7 @@ import subprocess
 import argparse
 
 # optional arguments
-parser = argparse.ArgumentParser(# prog="python signatures.py",
-                                 description="A tool to generate bindable signatures from a PDF document")
+parser = argparse.ArgumentParser(description="A tool to generate bindable signatures from a PDF document")
 parser.add_argument("--start", "-s",
                     help="the first page of the source document to process (default 1)",
                     required=False)
@@ -84,9 +83,10 @@ while sig_start <= end:
                     "output",
                     outfile])
 
-    # use pdfbook to rearrange the pages for printing
-    os.system("cat %s | pdfbook --paper %s -o %s" % (outfile,
-                                                     size,
-                                                     outfile))
+    # use pdfbook to rearrange the pages for printing (-q is an
+    # undocumented "quiet" option, apparently)
+    os.system("cat %s | pdfbook -q --paper %s -o %s" % (outfile,
+                                                        size,
+                                                        outfile))
     # next signature
     sig_start = sig_end + 1
