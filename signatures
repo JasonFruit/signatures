@@ -85,8 +85,13 @@ while sig_start <= end:
 
     # use pdfbook to rearrange the pages for printing (-q is an
     # undocumented "quiet" option, apparently)
-    os.system("cat %s | pdfbook -q --paper %s -o %s" % (outfile,
-                                                        size,
-                                                        outfile))
+    if "," in size:
+        os.system("cat %s | pdfbook -q --papersize '%s' -o %s" % (outfile,
+                                                                  size,
+                                                                  outfile))
+    else:
+        os.system("cat %s | pdfbook -q --paper %s -o %s" % (outfile,
+                                                            size,
+                                                            outfile))
     # next signature
     sig_start = sig_end + 1
